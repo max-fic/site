@@ -20,7 +20,39 @@ Setting up an MkDocs site and publishing it to GitHub Pages only takes a few com
 mkdocs new <project>
 ```
 
-Then create an **empty** repository on GitHub (no README, no licence — keep it totally empty), and link your local project to it:
+## Create a ssh key for communication with GitHub (if you're new to github)
+
+== Mac Terminal ==
+
+1. Create a .ssh directory 
+```bash
+$ cd $HOME
+$ mkdir .ssh
+$ cd .ssh
+```
+
+2.  now generate the ssh key
+```bash
+$ ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+3. Edit or create the config file. Use an editor to open `config` and enter the following information:
+
+```plaintext
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519  # The file ssh-keygen made
+  IdentitiesOnly yes
+```
+
+4. Copy the contents of the file `id_ed25519.pub` to the clipboard.
+
+```bash
+$ pbcopy < ~/.ssh/id_ed25519.pub
+```
+## Create a new GitHub repository
+Then create an **empty** repository on GitHub (no README, no license — keep it totally empty), and link your local project to it:
 
 ```bash
 cd <project>
