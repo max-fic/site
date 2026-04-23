@@ -1,17 +1,10 @@
-# Welcome to MkDocs
+---
+title: Home
+description: Personal knowledge base and blog by Max Fichtl.
+---
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+# Hi, I'm Max
 
-## Commands
+Welcome to my personal knowledge base — a place where I collect notes, guides, and thoughts on topics I'm exploring.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+Use the navigation above to browse by topic, or head to the [Blog](blog/index.md) for longer-form posts.
