@@ -37,6 +37,9 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.mark # For ==highlighting==
+  - pymdownx.keys # For ++key++ boxes
+  - pymdownx.betterem # Recommended for better emphasis handling
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.tabbed:
