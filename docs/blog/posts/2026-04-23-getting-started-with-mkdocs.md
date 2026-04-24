@@ -10,33 +10,93 @@ tags:
   - github
 ---
 
-Setting up an MkDocs site and publishing it to GitHub Pages only takes a few commands — but the Git workflow around it trips people up at first. Here's the sequence I use.
+
+
+Setting up a `mkdocs` site and publishing it to GitHub Pages only takes a few commands — but the Git workflow around it trips people up at first. 
 
 <!-- more -->
 
-## Create the project
+`git` is a version control system for file. It allows you to manage different versions of your files (keeping older versions, showing what has been done in which version ...).
 
+No worries, one needs not to learn or use `git` when writing stuff for your website. We only need to install it as it is necessary for `mkdocs` to talk to GitHub.
+
+The following steps show how to connect your project to GitHub.
+
+
+## Connect a `mkdocs` project to GitHub
+
+The following assumes that you have already a `mkdocs` site locally.
+
+#### 1, Create a new GitHub repository
+Create an **empty** repository on GitHub (no README, no license — keep it totally empty), and link your local project to it:
+
+==On GitHub==
+
+1. Click on your icon, then `Repositories`, then `New`
+
+2. Enter the name of the repository
+
+4. Make sure, you have no README.md, no license file
+
+#### 2. Set up `git` and link your local repository to GitHub 
+
+No we must activate git in our directory and tell git how to send our files to GitHub.
+
+==Mac Terminal==
 ```bash
-mkdocs new <project>
+cd <project>
+git init
+git branch -M main
+git remote add origin git@github.com:<username>/<repo>.git
 ```
 
-## Create a ssh key for communication with GitHub (if you're new to github)
+!!! note "SSH key"
+    If you're connecting via SSH (as in the example above), make sure your key is in `~/.ssh/` and added to your GitHub account (see the steps at the end).
 
-== Mac Terminal ==
+## Deploy your site on GitHub
 
-1. Create a .ssh directory 
+Once connected everything is very easy, especially if you don't use `git` for the management of the source files (mkdocs.yml, *.md files ...).
+
+To deploy you simply build the site and instruct `mkdocs` to send the generated site to GitHub
+
+```bash
+
+mkdocs build --strict
+mkdocs gh-deploy
+```
+
+Once run your site is visible under 
+
+`<yourgitname>.github.io/<project>`
+
+!!! Tip 
+    If you do not want to use git for managing the versions of your 
+    source files you can forget about `git`. Just work on your files, 
+    add, edit or delete your files. Do not forget to build and deploy 
+    your website after changes
+
+## Appendix: Create a ssh key for communication with GitHub (if you're new to GitHub)
+
+If you haven't used `git` with GitHub yet, you must set a `ssh` key for secure communications with GitHub. This key authenticates you with GitHub and allows you to send files to your repository.
+
+The key creation process has essentially two steps. First we generate a key locally which creates two keys, private and public. The private key stays stored on our computer. The public key will be given to GitHub.
+
+==Mac Terminal==
+
+#### 1. Create a .ssh directory 
 ```bash
 $ cd $HOME
 $ mkdir .ssh
 $ cd .ssh
 ```
 
-2.  now generate the ssh key
+#### 2. Generate the ssh key
 ```bash
-$ ssh-keygen -t ed25519 -C "your_email@example.com"
+$ ssh-keygen -t ed25519 -C "<your_email@example.com>"
 ```
 
-3. Edit or create the config file. Use an editor to open `config` and enter the following information:
+#### 3. Edit or create the config file
+Use an editor to open `config` and enter the following information:
 
 ```plaintext
 Host github.com
@@ -46,105 +106,22 @@ Host github.com
   IdentitiesOnly yes
 ```
 
-4. Copy the contents of the file `id_ed25519.pub` to the clipboard.
+#### 4. Copy the contents of the file `id_ed25519.pub` to the clipboard.
 
 ```bash
 $ pbcopy < ~/.ssh/id_ed25519.pub
 ```
-## Create a new GitHub repository
-Then create an **empty** repository on GitHub (no README, no license — keep it totally empty), and link your local project to it:
 
-```bash
-cd <project>
-git init
-git branch -M main
-git remote add origin git@github.com:<username>/<repo>.git
-```
+==On GitHub==
 
-!!! note "SSH key"
-    If you're connecting via SSH, make sure your key is in `~/.ssh/` and added to your GitHub account.
+#### 5. Paste clipboard contents into GitHub
 
-Stage and push your initial files:
+1. On GitHub click your profile icon, then `Settings`, then `SSH and GPG keys`
 
-```bash
-git add .
-git commit -m "Initial commit"
-git push -u origin main
-```
+2. Click on `New SSH key`
 
----
+3. In the `Title` Box, give a name for the key
+4. Paste the clipboard contents into the `Text` box
+5. Press the `Add SSH key` button
 
-## Merging a feature branch into main
-
-Merging locally gives you full control before anything goes public. Here's the exact sequence using a branch called `blog-update` as an example.
-
-### 1. Save your work
-
-Make sure the feature branch is clean before switching away from it.
-
-```bash
-git add .
-git commit -m "Finish blog updates"
-```
-
-### 2. Switch to main
-
-You merge **into** the branch you're standing on.
-
-```bash
-git checkout main
-```
-
-### 3. Sync with GitHub (optional but recommended)
-
-If you've made any changes directly on GitHub, pull them first so your local `main` is up to date.
-
-```bash
-git pull origin main
-```
-
-### 4. Merge
-
-```bash
-git merge blog-update
-```
-
-Two outcomes are possible:
-
-- **Fast-forward** — `main` hasn't changed since you branched off, so Git just moves the pointer forward. Clean and instant.
-- **Recursive merge / conflict** — both branches have new changes. Git combines them or asks you to resolve conflicts.
-
-### 5. Push
-
-```bash
-git push origin main
-```
-
-This is usually what triggers the GitHub Actions workflow to rebuild and deploy the site.
-
----
-
-## Resolving merge conflicts
-
-If the merge fails with "Automatic merge failed", don't panic. It just means the same line was edited in both branches.
-
-1. Run `git status` to see which files are conflicted.
-2. Open each file — look for `<<<<<<< HEAD` and `>>>>>>> blog-update` markers.
-3. Delete the markers and keep the version you want.
-4. Stage and commit:
-
-```bash
-git add <filename>
-git commit -m "fix: resolve merge conflict"
-git push origin main
-```
-
----
-
-## Clean up
-
-Once a branch is merged, you can safely delete it:
-
-```bash
-git branch -d blog-update
-```
+And "Voilá" we can now send files from our local repository to GitHub.
