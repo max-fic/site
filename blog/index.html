@@ -572,84 +572,14 @@
   </header>
   <div class="md-post__content md-typeset">
     <h2 id="iworking-with-git"><a class="toclink" href="2026/04/24/iworking-with-git/">iWorking with git</a></h2>
-<h3 id="setting-up-git"><a class="toclink" href="2026/04/24/iworking-with-git/#setting-up-git">Setting up <code>git</code></a></h3>
-<p>The following commands bring all your files in the current directory and subdirectories under <code>git</code> control. The last command</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial commit&quot;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
-</code></pre></div>
-<hr />
-<h3 id="merging-a-feature-branch-into-main"><a class="toclink" href="2026/04/24/iworking-with-git/#merging-a-feature-branch-into-main">Merging a feature branch into main</a></h3>
-<p>Merging locally gives you full control before anything goes public. Here's the exact sequence using a branch called <code>blog-update</code> as an example.</p>
-<h4 id="1-save-your-work"><a class="toclink" href="2026/04/24/iworking-with-git/#1-save-your-work">1. Save your work</a></h4>
-<p>Make sure the feature branch is clean before switching away from it.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Finish blog updates&quot;</span>
-</code></pre></div>
-<h4 id="2-switch-to-main"><a class="toclink" href="2026/04/24/iworking-with-git/#2-switch-to-main">2. Switch to main</a></h4>
-<p>You merge <strong>into</strong> the branch you're standing on.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>main
-</code></pre></div>
-<h4 id="3-sync-with-github-optional-but-recommended"><a class="toclink" href="2026/04/24/iworking-with-git/#3-sync-with-github-optional-but-recommended">3. Sync with GitHub (optional but recommended)</a></h4>
-<p>If you've made any changes directly on GitHub, pull them first so your local <code>main</code> is up to date.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>main
-</code></pre></div>
-<h4 id="4-merge"><a class="toclink" href="2026/04/24/iworking-with-git/#4-merge">4. Merge</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>git<span class="w"> </span>merge<span class="w"> </span>blog-update
-</code></pre></div>
-<p>Two outcomes are possible:</p>
-<ul>
-<li><strong>Fast-forward</strong> — <code>main</code> hasn't changed since you branched off, so Git just moves the pointer forward. Clean and instant.</li>
-<li><strong>Recursive merge / conflict</strong> — both branches have new changes. Git combines them or asks you to resolve conflicts.</li>
-</ul>
-<h4 id="5-push"><a class="toclink" href="2026/04/24/iworking-with-git/#5-push">5. Push</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
-</code></pre></div>
-<p>This is usually what triggers the GitHub Actions workflow to rebuild and deploy the site.</p>
-<hr />
-<h3 id="resolving-merge-conflicts"><a class="toclink" href="2026/04/24/iworking-with-git/#resolving-merge-conflicts">Resolving merge conflicts</a></h3>
-<p>If the merge fails with "Automatic merge failed", don't panic. It just means the same line was edited in both branches.</p>
-<ol>
-<li>Run <code>git status</code> to see which files are conflicted.</li>
-<li>Open each file — look for <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; blog-update</code> markers.</li>
-<li>Delete the markers and keep the version you want.</li>
-<li>Stage and commit:</li>
-</ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>git<span class="w"> </span>add<span class="w"> </span>&lt;filename&gt;
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: resolve merge conflict&quot;</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
-</code></pre></div>
-<hr />
-<h3 id="clean-up"><a class="toclink" href="2026/04/24/iworking-with-git/#clean-up">Clean up</a></h3>
-<p>Once a branch is merged, you can safely delete it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>git<span class="w"> </span>branch<span class="w"> </span>-d<span class="w"> </span>blog-update
-</code></pre></div>
-<h4 id="staging-and-unstaging-a-file"><a class="toclink" href="2026/04/24/iworking-with-git/#staging-and-unstaging-a-file">Staging and unstaging a File</a></h4>
-<p>Staging a specific file
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>git<span class="w"> </span>add<span class="w"> </span>&lt;filename&gt;
-</code></pre></div></p>
-<p>Staging everything under <code>git</code> control:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
-</code></pre></div></p>
-<p>Unstaging a file:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>git<span class="w"> </span>restore<span class="w"> </span>--stage<span class="w"> </span>&lt;filename&gt;
-</code></pre></div></p>
-<h4 id="committing-changes-and-undoing-commits"><a class="toclink" href="2026/04/24/iworking-with-git/#committing-changes-and-undoing-commits">Committing changes and undoing commits</a></h4>
-<p>Commit everything that has been staged
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Commit Message&quot;</span>
-</code></pre></div></p>
-<p>Committing a specific file (does not have to be staged yet):
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>git<span class="w"> </span>commit<span class="w"> </span>&lt;filename&gt;<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Commit Message&quot;</span>
-</code></pre></div></p>
-<p>Undoing a commit and unstaging the files last committed.
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>git<span class="w"> </span>reset<span class="w"> </span>HEAD~1
-</code></pre></div></p>
-<p>Undoing a commit but leaving the files staged (e.g. to add another file to the same commit).
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>git<span class="w"> </span>reset<span class="w"> </span>--soft<span class="w"> </span>HEAD~1
-</code></pre></div></p>
-<p>Resetting the directory to the state of the last of the previous commits. This resets the HEAD, unstages any staged files, removes any uncommited changes. It will delete files that were added after the lst previous commit.
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD~1
-</code></pre></div></p>
+<p><code>Git</code> is a version control system for your files. You can look at as a <code>undo</code> button for your files. E.g. if you screwed up your file it will allow you to go back to newer version. Let us explore how to use git, what are typical workflows and best practices are.</p>
+
+    
+      <nav class="md-post__action">
+        <a href="2026/04/24/iworking-with-git/">
+          Continue reading
+        </a>
+      </nav>
     
     
   </div>
