@@ -8,6 +8,10 @@ tags:
   - git
 ---
 
+`Git` is a version control system for your files. You can look at as a `undo` button for your files. E.g. if you screwed up your file it will allow you to go back to newer version. Let us explore how to use git, what are typical workflows and best practices are.
+
+
+<!-- more -->
 
 
 ## Setting up `git`
