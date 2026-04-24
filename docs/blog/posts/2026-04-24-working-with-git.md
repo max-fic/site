@@ -1,5 +1,5 @@
 ---
-title: iWorking with git
+title: Working with git
 description: How to use git for managing your source file
 date: 2026-04-24
 authors:
@@ -8,7 +8,7 @@ tags:
   - git
 ---
 
-`Git` is a version control system for your files. You can look at as a `undo` button for your files. E.g. if you screwed up your file it will allow you to go back to newer version. Let us explore how to use git, what are typical workflows and best practices are.
+`Git` is a version control system for your files. You can look at as a `undo` button for your files. Imagine you accidentally deleted a file or screwed up the file contents. `Git` will allow you to go back to a saved version. Let us explore how to use git, what are typical workflows and best practices are.
 
 
 <!-- more -->
